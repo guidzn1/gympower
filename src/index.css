@@ -1,0 +1,16 @@
+:root {
+  --primary-color: #9FEA1C;
+  --dark-bg: #0e0e0e;
+  --card-bg: #1a1a1a;
+  --text-light: #ffffff;
+  --text-muted: #aaaaaa;
+  font-family: 'Inter', sans-serif;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background-color: var(--dark-bg);
+  color: var(--text-light);
+  font-family: var(--font-family);
+}

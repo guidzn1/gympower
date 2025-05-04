@@ -1,0 +1,75 @@
+// src/pages/Login.jsx
+import "./Login.css";
+import gymLogo from "../assets/logo-gym-power.png";
+import userIcon from "../assets/user.svg";
+import keyIcon from "../assets/key.svg";
+
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../firebase";
+
+export default function Login() {
+  const [email, setEmail] = useState("");
+  const [senha, setSenha] = useState("");
+  const [erro, setErro] = useState("");
+
+  const navigate = useNavigate();
+
+  const handleLogin = async () => {
+    setErro(""); // Limpa o erro anterior
+
+    try {
+      await signInWithEmailAndPassword(auth, email, senha);
+      navigate("/dashboard"); // ou onde quiser redirecionar
+    } catch (error) {
+      if (error.code === "auth/user-not-found") {
+        setErro("Usuário não encontrado.");
+      } else if (error.code === "auth/wrong-password") {
+        setErro("Senha incorreta.");
+      } else if (error.code === "auth/invalid-email") {
+        setErro("E-mail inválido.");
+      } else {
+        setErro("Erro ao fazer login: " + error.message);
+      }
+    }
+  };
+
+  return (
+    <div className="container">
+      <div className="card">
+        <img src={gymLogo} alt="Logo" />
+
+        <div className="input-group">
+          <img src={userIcon} alt="Email" />
+          <input
+            type="email"
+            placeholder="Email"
+            onChange={(e) => setEmail(e.target.value)}
+          />
+        </div>
+
+        <div className="input-group">
+          <img src={keyIcon} alt="Senha" />
+          <input
+            type="password"
+            placeholder="Senha"
+            onChange={(e) => setSenha(e.target.value)}
+          />
+        </div>
+
+        <p className="link-text" onClick={() => alert("Funcionalidade futura")}>
+          Esqueci minha senha
+        </p>
+
+        <button onClick={handleLogin}>Entrar</button>
+
+        {erro && <p className="error-text">{erro}</p>}
+
+        <p className="link-text" onClick={() => navigate("/cadastro")}>
+          Não tem uma conta? Criar conta
+        </p>
+      </div>
+    </div>
+  );
+}
