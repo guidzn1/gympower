@@ -1,12 +1,99 @@
-# React + Vite
+# 💪 GYM POWER
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Sistema de login e cadastro para controle de treinos com foco em usabilidade, visual moderno e integração com Firebase. Ideal para academias, atletas e projetos fitness.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 🚀 Funcionalidades
 
-## Expanding the ESLint configuration
+- Autenticação com Firebase (email e senha)
+- Cadastro com nome, contato e confirmação de senha
+- Tela de login com feedback visual de erros
+- Armazenamento de dados no Firestore
+- Estilo visual escuro com tema neon (verde #9FEA1C)
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+---
+
+## 🧰 Tecnologias usadas
+
+- [React](https://reactjs.org/)
+- [Vite](https://vitejs.dev/)
+- [Firebase Authentication](https://firebase.google.com/products/auth)
+- [Firestore](https://firebase.google.com/products/firestore)
+- CSS puro com variáveis personalizadas
+
+---
+
+## 📁 Estrutura do projeto
+
+```bash
+gympower/
+├── public/
+├── src/
+│   ├── assets/         # Ícones SVG e logo
+│   ├── pages/          # Login.jsx, Cadastro.jsx
+│   ├── firebase.js     # Configuração Firebase
+│   └── App.jsx         # Rotas principais
+├── .env                # (não incluso no repositório)
+├── .gitignore
+├── package.json
+└── README.md
+```
+
+---
+
+## 📦 Como rodar o projeto
+
+```bash
+# Clone o repositório
+git clone https://github.com/guidzn1/gympower.git
+cd gympower
+
+# Instale as dependências
+npm install
+
+# Crie um arquivo .env com suas credenciais do Firebase
+touch .env
+```
+
+### ✨ Exemplo de `.env`
+
+```env
+VITE_FIREBASE_API_KEY=SUACHAVE
+VITE_FIREBASE_AUTH_DOMAIN=SEUDOMINIO.firebaseapp.com
+VITE_FIREBASE_PROJECT_ID=SEUID
+VITE_FIREBASE_STORAGE_BUCKET=SEUBUCKET.appspot.com
+VITE_FIREBASE_MESSAGING_SENDER_ID=SEU_ID
+VITE_FIREBASE_APP_ID=SEU_APP_ID
+```
+
+> ⚠️ Esse arquivo **não está incluso** no repositório por motivos de segurança. Configure suas próprias credenciais no Firebase.
+
+---
+
+### ▶️ Para rodar localmente:
+
+```bash
+npm run dev
+```
+
+---
+
+## 📌 Próximos passos
+
+- Dashboard do usuário após login
+- Edição de perfil
+- Integração com plano de treino personalizado
+- Upload de fotos ou progresso físico
+
+---
+
+## 📄 Licença
+
+Este projeto está licenciado sob a Licença MIT.
+
+---
+
+## 👨‍💻 Autor
+
+Desenvolvido por [@guidzn1](https://github.com/guidzn1) 💚
