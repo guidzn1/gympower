@@ -5,11 +5,12 @@ import userIcon from "../assets/user.svg";
 import phoneIcon from "../assets/phone.svg";
 import emailIcon from "../assets/email.svg";
 import keyIcon from "../assets/key.svg";
+import googleIcon from "../assets/teste.png";
 
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { auth, db } from "../firebase";
-import { createUserWithEmailAndPassword } from "firebase/auth";
+import { auth, db, googleProvider } from "../firebase";
+import { createUserWithEmailAndPassword, signInWithPopup } from "firebase/auth";
 import { doc, setDoc } from "firebase/firestore";
 
 export default function Cadastro() {
@@ -23,7 +24,7 @@ export default function Cadastro() {
   const navigate = useNavigate();
 
   const handleCadastro = async () => {
-    setErro(""); // Limpa erro anterior
+    setErro("");
 
     if (senha !== confirmarSenha) {
       setErro("As senhas não coincidem.");
@@ -40,7 +41,7 @@ export default function Cadastro() {
         email,
       });
 
-      navigate("/");
+      navigate("/dashboard");
     } catch (error) {
       if (error.code === "auth/email-already-in-use") {
         setErro("Este e-mail já está em uso.");
@@ -54,6 +55,23 @@ export default function Cadastro() {
     }
   };
 
+  const handleGoogleCadastro = async () => {
+    try {
+      const result = await signInWithPopup(auth, googleProvider);
+      const user = result.user;
+
+      await setDoc(doc(db, "usuarios", user.uid), {
+        nome: user.displayName,
+        contato: "",
+        email: user.email,
+      });
+
+      navigate("/dashboard");
+    } catch (error) {
+      setErro("Erro com Google: " + error.message);
+    }
+  };
+
   return (
     <div className="container">
       <div className="card">
@@ -61,50 +79,34 @@ export default function Cadastro() {
 
         <div className="input-group">
           <img src={userIcon} alt="Nome" />
-          <input
-            type="text"
-            placeholder="Nome completo"
-            onChange={(e) => setNome(e.target.value)}
-          />
+          <input type="text" placeholder="Nome completo" onChange={(e) => setNome(e.target.value)} />
         </div>
 
         <div className="input-group">
           <img src={phoneIcon} alt="Contato" />
-          <input
-            type="text"
-            placeholder="Telefone ou WhatsApp"
-            onChange={(e) => setContato(e.target.value)}
-          />
+          <input type="text" placeholder="Telefone ou WhatsApp" onChange={(e) => setContato(e.target.value)} />
         </div>
 
         <div className="input-group">
           <img src={emailIcon} alt="Email" />
-          <input
-            type="email"
-            placeholder="Email"
-            onChange={(e) => setEmail(e.target.value)}
-          />
+          <input type="email" placeholder="Email" onChange={(e) => setEmail(e.target.value)} />
         </div>
 
         <div className="input-group">
           <img src={keyIcon} alt="Senha" />
-          <input
-            type="password"
-            placeholder="Senha"
-            onChange={(e) => setSenha(e.target.value)}
-          />
+          <input type="password" placeholder="Senha" onChange={(e) => setSenha(e.target.value)} />
         </div>
 
         <div className="input-group">
           <img src={keyIcon} alt="Confirmar Senha" />
-          <input
-            type="password"
-            placeholder="Confirmar Senha"
-            onChange={(e) => setConfirmarSenha(e.target.value)}
-          />
+          <input type="password" placeholder="Confirmar Senha" onChange={(e) => setConfirmarSenha(e.target.value)} />
         </div>
 
         <button onClick={handleCadastro}>Criar Conta</button>
+        <button onClick={handleGoogleCadastro} className="google-btn">
+          <img src={googleIcon} alt="Google" />
+          Criar Conta com Google
+        </button>
 
         {erro && <p className="error-text">{erro}</p>}
 

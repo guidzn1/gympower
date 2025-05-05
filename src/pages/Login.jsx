@@ -3,11 +3,12 @@ import "./Login.css";
 import gymLogo from "../assets/logo-gym-power.png";
 import userIcon from "../assets/user.svg";
 import keyIcon from "../assets/key.svg";
+import googleIcon from "../assets/teste.png";
 
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { signInWithEmailAndPassword } from "firebase/auth";
-import { auth } from "../firebase";
+import { signInWithEmailAndPassword, signInWithPopup } from "firebase/auth";
+import { auth, googleProvider } from "../firebase";
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -17,11 +18,10 @@ export default function Login() {
   const navigate = useNavigate();
 
   const handleLogin = async () => {
-    setErro(""); // Limpa o erro anterior
-
+    setErro("");
     try {
       await signInWithEmailAndPassword(auth, email, senha);
-      navigate("/dashboard"); // ou onde quiser redirecionar
+      navigate("/home");
     } catch (error) {
       if (error.code === "auth/user-not-found") {
         setErro("Usuário não encontrado.");
@@ -32,6 +32,16 @@ export default function Login() {
       } else {
         setErro("Erro ao fazer login: " + error.message);
       }
+    }
+  };
+
+  const handleGoogleLogin = async () => {
+    try {
+      await signInWithPopup(auth, googleProvider);
+      navigate("/home");
+      
+    } catch (error) {
+      setErro("Erro com Google: " + error.message);
     }
   };
 
@@ -63,6 +73,12 @@ export default function Login() {
         </p>
 
         <button onClick={handleLogin}>Entrar</button>
+        <button onClick={handleGoogleLogin} className="google-btn">
+        <img src={googleIcon} alt="Google" />
+           Entrar com o Google
+        </button>
+
+
 
         {erro && <p className="error-text">{erro}</p>}
 
